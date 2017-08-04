@@ -1,0 +1,101 @@
+Package compilador;
+ 
+Helpers     
+    charmin = ['a' .. 'z']+;
+    charmai = ['A' .. 'Z']+;
+    char = charmin|charmai;
+    digito = ['0' .. '9']+;
+    digito_octal = ['0' .. '7']+;
+    digito_hexadecimal = (['0' .. '9'] | ['A' .. 'F'] | ['a' .. 'f'])+;
+    qualquer_char = [0x0 .. 0xffff];
+    
+    underscore = '_';
+    
+    cr = 13 ;
+    lf = 10 ;
+    tab = 9 ;
+    blank = ' ';
+    ponto_e_virgula = ';';
+    hidentacao = [10 + tab];
+    /* hbarran = '\n'; */
+    hchar_ignored = cr|blank|'\n';
+    nao_cr_lf = [qualquer_char - [13 + 10]];
+    nao_estrela = [qualquer_char - '*'];
+    nao_estrela_barra = [nao_estrela - '/'];    
+ 
+Tokens
+    numero = digito+;
+    numerooctal = '0' digito_octal+;
+    numerohexa = '0' ('x'|'X') digito_hexadecimal+;
+    
+    comment_line = '//' [qualquer_char - 10]* hchar_ignored*;
+    coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
+    
+    nome_programa = charmai (charmin|charmai)*;
+    
+    string = ''' [nao_cr_lf - ''']+ ''';
+    
+    espaco = ' ';
+    quebra = lf;
+    
+    identacao = hidentacao;
+    
+    adicao = '+';
+    subtracao = '-';
+    barra = '/';
+    estrela = '*';
+    
+    menor = '<';
+    menor_igual = '<=';
+    maior = '>';
+    maior_igual = '>=';
+    
+    seta = '<-';
+    igual_igual = '==';
+    diferente = '!=';
+    igual = '=';    
+ 
+    delimitador = ponto_e_virgula;
+    virgula = ',';
+    abre_paren = '(' ;
+    fecha_paren = ')' ;
+    abre_colchete = '[' ;
+    fecha_colchete = ']' ;
+    abre_chave = '{' ;
+    fecha_chave = '}' ;
+    abre_coment = '/*' ;
+    fecha_coment = '*/' ;
+    ponto = '.';
+    doispontos = ':';
+    
+   and_logico = '&&';
+   or_logico = '||';
+   not_logico = '!';
+   declaracao_atribuicao = ':=';
+   ellipsis = '...';
+    
+   default = 'default';
+   case = 'case';
+   if = 'if';
+   else = 'else';
+   func = 'func';
+   defer = 'defer';
+   return = 'return';
+   range = 'range';
+   switch = 'switch';
+   for = 'for';
+   fallthrough = 'fallthrough';
+   var = 'var';
+   const = 'const';
+    
+    bool = 'bool';
+   	int32 = 'int32';
+   	int64 = 'int64';
+    tipo = ('bool' | 'int32' | 'int64');
+    
+    identificador = (underscore|char) (char|digito)*;
+    char_ignored = hchar_ignored | lf;
+    
+Ignored Tokens
+	char_ignored,
+    comment_line;
