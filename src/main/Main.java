@@ -58,8 +58,10 @@ class Main {
 				System.out.print(" ");
 			else if(id.equals("TQuebra"))
 				System.out.println();
+			else if(id.equals("TCharIgnored"))
+				System.out.print("");
 			else
-				System.out.print(id + "("+t.getText()+") ");
+				System.out.print(id + "("+t.getText()+")");
 			
 			// dá um 'enter'
 			//if (id.equals("TQuebra"))
