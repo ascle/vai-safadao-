@@ -28,7 +28,7 @@ Tokens
     numerooctal = '0' digito_octal+;
     numerohexa = '0' ('x'|'X') digito_hexadecimal+;
     
-    comment_line = '//' [qualquer_char - 10]* hchar_ignored*;
+    comment_line = '//' (nao_cr_lf)*;
     coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
     
     nome_programa = charmai (charmin|charmai)*;
