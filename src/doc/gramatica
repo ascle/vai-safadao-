@@ -99,3 +99,17 @@ Tokens
 Ignored Tokens
 	char_ignored,
     comment_line;
+
+Productions
+
+expr =
+  {factor} factor |
+  {adicao} expr adicao factor |
+  {subtracao} expr subtracao factor;
+factor =
+  {term} term |
+  {estrela} factor estrela term |
+  {barra} factor barra term;
+term =
+  {numero} numero |
+  {expr} abre_paren expr fecha_paren;
