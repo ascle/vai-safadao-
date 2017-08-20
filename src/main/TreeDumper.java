@@ -1,4 +1,4 @@
-package compilador;
+package main;
 
 import compilador.node.*;
 import compilador.analysis.*;
