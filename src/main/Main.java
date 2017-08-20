@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PushbackReader;
-
+import compilador.ASTDisplay;
+import compilador.ASTPrinter;
+import compilador.node.Start;
+import compilador.parser.Parser;
 import compilador.lexer.Lexer;
 import compilador.lexer.LexerException;
 import compilador.node.Token;
@@ -16,7 +19,7 @@ class Main {
 	public static void main(String args[]) {
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/teste/progTest2";
+			arquivo = System.getProperty("user.dir") + "/teste/progTest3";
 		else
 			arquivo = args[0];
 		
@@ -32,6 +35,8 @@ class Main {
 		Lexer l = new Lexer(new PushbackReader(br));
 		Token t = null;
 		String erros = "";
+		
+		System.out.println("Analise Lexica:");
 		
 		while (true){
 			try{
@@ -68,6 +73,18 @@ class Main {
 				//System.out.println();
 			
 		}
+		
+		System.out.println("\n\nAnalise Sintatica:");
+		Parser p =
+				new Parser(
+						new Lexer(
+								new PushbackReader(  
+										new FileReader(arquivo), 1024))); 
+		
+		Start tree = p.parse();
+		tree.apply(new ASTDisplay());
+		tree.apply(new ASTPrinter());
+		
 		
 		System.out.println("");
 		if (!erros.trim().isEmpty())
