@@ -82,9 +82,7 @@ Tokens
    defer = 'defer';
    return = 'return';
    range = 'range';
-   switch = 'switch';
    for = 'for';
-   fallthrough = 'fallthrough';
    var = 'var';
    const = 'const';
     
@@ -113,3 +111,99 @@ factor =
 term =
   {numero} numero |
   {expr} abre_paren expr fecha_paren;
+  
+/*
+Program = { TopLevelDecl ponto_e_virgula } .
+TopLevelDecl = Declaration | FunctionDecl | MethodDecl .
+
+Declaration = ConstDecl | VarDecl .
+
+ConstDecl = const ( ConstSpec | abre_paren { ConstSpec ponto_e_virgula } fecha_paren ) .
+ConstSpec = IdentifierList [ [ Type ] igual ExpressionList ] .
+
+VarDecl = var ( VarSpec | abre_paren { VarSpec ponto_e_virgula } fecha_paren ) .
+VarSpec = IdentifierList ( Type [ igual ExpressionList ] | igual ExpressionList ) .
+
+IdentifierList = identifier { virgula identifier } .
+
+ExpressionList = Expression { virgula Expression } .
+Expression = UnaryExpr | Expression binary_op Expression .
+UnaryExpr = PrimaryExpr | unary_op UnaryExpr .
+binary_op = or_logico | and_logico | rel_op | add_op | mul_op .
+rel_op = igual_igual | menor | maior .
+add_op = adicao | subtracao .
+mul_op = estrela | barra .
+unary_op = adicao | subtracao | not_logico .
+
+PrimaryExpr = Operand | Conversion | PrimaryExpr Index | PrimaryExpr Arguments .
+Operand = Literal | identifier | abre_paren Expression fecha_paren .
+
+Literal = BasicLit | CompositeLit | FunctionLit .
+BasicLit = int_lit .
+
+CompositeLit = LiteralType LiteralValue .
+LiteralType = ArrayType | abre_colchete ellipsis fecha_colchete ElementType .
+LiteralValue = abre_chave [ ElementList [ virgula ] ] fecha_chave .
+ElementList = KeyedElement { virgula KeyedElement } .
+KeyedElement = [ Key doispontos ] Element .
+Key = FieldName | Expression | LiteralValue .
+
+FieldName = identifier .
+Element = Expression | LiteralValue .
+
+FunctionLit = func Function .
+
+Conversion = Type abre_paren Expression [ virgula ] fecha_paren .
+Index = abre_colchete Expression fecha_colchete .
+Arguments = abre_paren [ ( ExpressionList | Type [ virgula ExpressionList ] ) [ ellipsis ] [ virgula ] ] fecha_paren .
+
+FunctionDecl = func FunctionName ( Function | Signature ) .
+FunctionName = identifier .
+Function = Signature FunctionBody .
+FunctionBody = Block .
+
+Block = abre_chave StatementList fecha_chave .
+StatementList = { Statement ponto_e_virgula } .
+
+MethodDecl = func Receiver MethodName ( Function | Signature ) .
+Receiver = Parameters .
+MethodName = identifier .
+Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren .
+ParameterList = ParameterDecl { virgula ParameterDecl } .
+ParameterDecl = [ IdentifierList ] Type .
+
+Statement = Declaration | SimpleStmt | ReturnStmt | Block | IfStmt | ForStmt .
+
+SimpleStmt = EmptyStmt | ExpressionStmt | Assignment | ShortVarDecl .
+EmptyStmt = .
+ExpressionStmt = Expression .
+Assignment = ExpressionList igual ExpressionList .
+ShortVarDecl = IdentifierList declaracao_atribuicao ExpressionList .
+
+ReturnStmt = return [ ExpressionList ] .
+
+IfStmt = if [ SimpleStmt ponto_e_virgula ] Expression Block [ else ( IfStmt | Block ) ] .
+
+ForStmt = for [ Condition | ForClause | RangeClause ] Block .
+Condition = Expression .
+ForClause = [ InitStmt ] ponto_e_virgula [ Condition ] ponto_e_virgula [ PostStmt ] .
+RangeClause = [ ExpressionList igual | IdentifierList declaracao_atribuicao ] range Expression .
+
+InitStmt = SimpleStmt .
+PostStmt = SimpleStmt .
+
+Type = TypeName | TypeLit | abre_paren Type fecha_paren .
+TypeName = identifier .
+TypeLit = ArrayType | FunctionType .
+
+ArrayType = abre_colchete ArrayLength fecha_colchete ElementType .
+ArrayLength = Expression .
+ElementType = Type .
+FunctionType = func Signature .
+
+Signature = Parameters [ Result ] .
+Result = Parameters | Type .
+Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren .
+ParameterList = ParameterDecl { virgula ParameterDecl } .
+ParameterDecl = [ IdentifierList ] [ ellipsis ] Type .  
+*/
