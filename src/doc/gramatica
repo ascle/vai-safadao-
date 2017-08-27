@@ -112,104 +112,107 @@ Productions
       {tnumero} tnumero |
       {expr} tabre_paren expr tfecha_paren;
 
+
+
+
   pidentifier_list =  { pmais_identificadores } tidentifier;
   pmais_identificadores = tidentifier tvirgula;
 
   /*
-  ConstDecl = const ( ConstSpec | abre_paren { ConstSpec ponto_e_virgula } fecha_paren ) ;
-  ConstSpec = IdentifierList [ [ Type ] igual ExpressionList ] ;
+  pconst_decl = tconst ( pconst_spec | tabre_paren { pconst_spec tdelimitador } tfecha_paren ) ;
+  pconst_spec = pidentifier_list [ [ ptype ] tigual pexpression_list ] ;
 
-  VarDecl = var ( VarSpec | abre_paren { VarSpec ponto_e_virgula } fecha_paren ) ;
-  VarSpec = IdentifierList ( Type [ igual ExpressionList ] | igual ExpressionList ) ;
+  pvar_decl = var ( pvar_spec | abre_paren { pvar_spec ponto_e_virgula } fecha_paren ) ;
+  pvar_spec = pidentifier_list ( ptype [ tigual pexpression_list ] | tigual pexpression_list ) ;
 
-  Declaration = ConstDecl | VarDecl ;
+  pdeclaration = pconst_decl | pvar_decl ;
 
-  FunctionDecl = func FunctionName ( Function | Signature ) ;
-  FunctionName = identifier ;
-  Function = Signature FunctionBody ;
-  FunctionBody = Block ;
+  pfunction_decl = func pfunction_name ( pfunction | psignature ) ;
+  pfunction_name = identifier ;
+  pfunction = psignature pfunction_body ;
+  pfunction_body = pblock ;
 
-  Program = { TopLevelDecl delimitador } ;
-  TopLevelDecl = Declaration | FunctionDecl | MethodDecl ;
-
-  
-
-  ExpressionList = Expression { virgula Expression } ;
-  Expression = UnaryExpr | Expression binary_op Expression ;
-  UnaryExpr = PrimaryExpr | unary_op UnaryExpr ;
-  binary_op = or_logico | and_logico | rel_op | add_op | mul_op ;
-  rel_op = igual_igual | menor | maior ;
-  add_op = adicao | subtracao ;
-  mul_  op = estrela | barra ;
-  unary_op = adicao | subtracao | not_logico ;
-
-  PrimaryExpr = Operand | Conversion | PrimaryExpr Index | PrimaryExpr Arguments ;
-  Operand = Literal | identifier | abre_paren Expression fecha_paren ;
-
-  Literal = BasicLit | CompositeLit | FunctionLit ;
-  BasicLit = int_lit ;
-
-  CompositeLit = LiteralType LiteralValue ;
-  LiteralType = ArrayType | abre_colchete ellipsis fecha_colchete ElementType ;
-  LiteralValue = abre_chave [ ElementList [ virgula ] ] fecha_chave ;
-  ElementList = KeyedElement { virgula KeyedElement } ;
-  KeyedElement = [ Key doispontos ] Element ;
-  Key = FieldName | Expression | LiteralValue ;
-
-  FieldName = identifier ;
-  Element = Expression | LiteralValue ;
-
-  FunctionLit = func Function ;
-
-  Conversion = Type abre_paren Expression [ virgula ] fecha_paren ;
-  Index = abre_colchete Expression fecha_colchete ;
-  Arguments = abre_paren [ ( ExpressionList | Type [ virgula ExpressionList ] ) [ ellipsis ] [ virgula ] ] fecha_paren ;
+  pprogram = { ptopLevel_decl delimitador } ;
+  ptopLevel_decl = pdeclaration | pfunction_decl | pmethod_decl  ;
 
   
 
-  Block = abre_chave StatementList fecha_chave ;
-  StatementList = { Statement ponto_e_virgula } ;
+  pexpression_list = pexpression { virgula pexpression } ;
+  pexpression = punary_expr | pexpression pbinary_op pexpression ;
+  punary_expr = pprimary_expr | punary_op punary_expr ;
+  pbinary_op = or_logico | tand_logico | prel_op | padd_op | pmul_op ;
+  prel_op = igual_igual | tmenor | tmaior ;
+  padd_op = adicao | subtracao ;
+  pmul_op = estrela | barra ;
+  punary_op = adicao | subtracao | not_logico ;
 
-  MethodDecl = func Receiver MethodName ( Function | Signature ) ;
-  Receiver = Parameters ;
-  MethodName = identifier ;
-  Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren ;
-  ParameterList = ParameterDecl { virgula ParameterDecl } ;
-  ParameterDecl = [ IdentifierList ] Type ;
+  pprimary_expr = poperand | pconversion | pprimary_expr pindex | pprimary_expr parguments ;
+  poperand = pliteral | identifier | abre_paren pexpression fecha_paren ;
 
-  Statement = Declaration | SimpleStmt | ReturnStmt | Block | IfStmt | ForStmt ;
+  pliteral = pbasic_lit | pcomposite_lit | pfunction_list ;
+  pbasic_lit = int_lit ;
 
-  SimpleStmt = EmptyStmt | ExpressionStmt | Assignment | ShortVarDecl ;
-  EmptyStmt = ;
-  ExpressionStmt = Expression ;
-  Assignment = ExpressionList igual ExpressionList ;
-  ShortVarDecl = IdentifierList declaracao_atribuicao ExpressionList ;
+  pcomposite_lit = pliteral_type pliteral_value ;
+  pliteral_type = parray_type | abre_colchete ellipsis fecha_colchete pelement_type ;
+  pliteral_value = abre_chave [ pelement_lit [ virgula ] ] fecha_chave ;
+  pelement_lit = pkeyed_element { virgula pkeyed_element } ;
+  pkeyed_element = [ pkey doispontos ] pelement ;
+  pkey = pfield_name| pexpression | pliteral_value ;
 
-  ReturnStmt = return [ ExpressionList ] ;
+  pfield_name= identifier ;
+  pelement = pexpression | pliteral_value ;
 
-  IfStmt = if [ SimpleStmt ponto_e_virgula ] Expression Block [ else ( IfStmt | Block ) ] ;
+  pfunction_list = func pfunction ;
 
-  ForStmt = for [ Condition | ForClause | RangeClause ] Block ;
-  Condition = Expression ;
-  ForClause = [ InitStmt ] ponto_e_virgula [ Condition ] ponto_e_virgula [ PostStmt ] ;
-  RangeClause = [ ExpressionList igual | IdentifierList declaracao_atribuicao ] range Expression ;
+  pconversion = ptype abre_paren pexpression [ virgula ] fecha_paren ;
+  pindex = abre_colchete pexpression fecha_colchete ;
+  parguments = abre_paren [ ( pexpression_list | ptype [ virgula pexpression_list ] ) [ ellipsis ] [ virgula ] ] fecha_paren ;
 
-  InitStmt = SimpleStmt ;
-  PostStmt = SimpleStmt ;
+  
 
-  Type = TypeName | TypeLit | abre_paren Type fecha_paren ;
-  TypeName = identifier ;
-  TypeLit = ArrayType | FunctionType ;
+  pblock = abre_chave pstatement_list fecha_chave ;
+  pstatement_list = { pstatement ponto_e_virgula } ;
 
-  ArrayType = abre_colchete ArrayLength fecha_colchete ElementType ;
-  ArrayLength = Expression ;
-  ElementType = Type ;
-  FunctionType = func Signature ;
+  pmethod_decl  = func preceiver  pmethodName ( pfunction | psignature ) ;
+  preceiver  = pparameters ;
+  pmethodName = identifier ;
+  pparameters = abre_paren [ pparameter_list [ virgula ] ] fecha_paren ;
+  pparameter_list = pparameter_decl { virgula pparameter_decl } ;
+  pparameter_decl = [ pidentifier_list ] ptype ;
 
-  Signature = Parameters [ Result ] ;
-  Result = Parameters | Type ;
-  Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren ;
-  ParameterList = ParameterDecl { virgula ParameterDecl } ;
-  ParameterDecl = [ IdentifierList ] [ ellipsis ] Type ;  
+  pstatement = pdeclaration | psimple_stmt | preturn_stmt | pblock | pif_stmt  | pfor_stmt ;
+
+  psimple_stmt = pempty_stmt | pexpression_stmt | passignment | pshortpvar_decl ;
+  pempty_stmt = ;
+  pexpression_stmt = pexpression ;
+  passignment = pexpression_list igual pexpression_list ;
+  pshortpvar_decl = pidentifier_list declaracao_atribuicao pexpression_list ;
+
+  preturn_stmt = return [ pexpression_list ] ;
+
+  pif_stmt  = if [ psimple_stmt ponto_e_virgula ] pexpression pblock [ else ( pif_stmt  | pblock ) ] ;
+
+  pfor_stmt = for [ pcondition | pfor_clause | prange_clause ] pblock ;
+  pcondition = pexpression ;
+  pfor_clause = [ pinit_stmt ] ponto_e_virgula [ pcondition ] ponto_e_virgula [ ppost_stmt ] ;
+  prange_clause = [ pexpression_list igual | pidentifier_list declaracao_atribuicao ] range pexpression ;
+
+  pinit_stmt = psimple_stmt ;
+  ppost_stmt = psimple_stmt ;
+
+  ptype = ptype_name | ptype_list | abre_paren ptype fecha_paren ;
+  ptype_name = identifier ;
+  ptype_list = parray_type | pfunctionptype ;
+
+  parray_type = abre_colchete parray_length fecha_colchete pelement_type ;
+  parray_length = pexpression ;
+  pelement_type = ptype ;
+  pfunctionptype = func psignature ;
+
+  psignature = pparameters [ presult ] ;
+  presult = pparameters | ptype ;
+  pparameters = abre_paren [ pparameter_list [ virgula ] ] fecha_paren ;
+  pparameter_list = pparameter_decl { virgula pparameter_decl } ;
+  pparameter_decl = [ pidentifier_list ] [ ellipsis ] ptype ;  
 
 */
