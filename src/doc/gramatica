@@ -1,209 +1,204 @@
 Package compilador;
  
 Helpers     
-    charmin = ['a' .. 'z']+;
-    charmai = ['A' .. 'Z']+;
-    char = charmin|charmai;
-    digito = ['0' .. '9']+;
-    digito_octal = ['0' .. '7']+;
-    digito_hexadecimal = (['0' .. '9'] | ['A' .. 'F'] | ['a' .. 'f'])+;
-    qualquer_char = [0x0 .. 0xffff];
+    hcharmin = ['a' .. 'z']+;
+    hcharmai = ['A' .. 'Z']+;
+    hchar = hcharmin|hcharmai;
+    hdigito = ['0' .. '9']+;
+    hdigito_octal = ['0' .. '7']+;
+    hdigito_hexadecimal = (['0' .. '9'] | ['A' .. 'F'] | ['a' .. 'f'])+;
+    hqualquer_char = [0x0 .. 0xffff];
     
-    underscore = '_';
+    hunderscore = '_';
     
-    cr = 13 ;
-    lf = 10 ;
-    tab = 9 ;
-    blank = ' ';
-    ponto_e_virgula = ';';
-    hidentacao = [10 + tab];
+    hcr = 13 ;
+    hlf = 10 ;
+    htab = 9 ;
+    hblank = ' ';
+    hponto_e_virgula = ';';
+    hidentacao = [10 + htab];
     /* hbarran = '\n'; */
-    hchar_ignored = cr|blank|'\n';
-    nao_cr_lf = [qualquer_char - [13 + 10]];
-    nao_estrela = [qualquer_char - '*'];
-    nao_estrela_barra = [nao_estrela - '/'];    
+    hchar_ignored = hcr|hblank|'\n';
+    hnao_cr_lf = [hqualquer_char - [13 + 10]];
+    hnao_estrela = [hqualquer_char - '*'];
+    hnao_estrela_barra = [hnao_estrela - '/'];    
  
 Tokens
-    numero = digito+;
-    numerooctal = '0' digito_octal+;
-    numerohexa = '0' ('x'|'X') digito_hexadecimal+;
+    tnumero = hdigito+;
+    tnumerooctal = '0' hdigito_octal+;
+    tnumerohexa = '0' ('x'|'X') hdigito_hexadecimal+;
     
-    comment_line = '//' (nao_cr_lf)*;
-    coment_bloco = '/*' nao_estrela* '*'+ (nao_estrela_barra nao_estrela* '*'+)* '/';
+    tcomment_line = '//' (hnao_cr_lf)*;
+    tcoment_bloco = '/*' hnao_estrela* '*'+ (hnao_estrela_barra hnao_estrela* '*'+)* '/';
     
-    nome_programa = charmai (charmin|charmai)*;
+    tnome_programa = hcharmai (hcharmin|hcharmai)*;
     
-    string = ''' [nao_cr_lf - ''']+ ''';
+    tstring = ''' [hnao_cr_lf - ''']+ ''';
     
-    espaco = ' ';
-    quebra = lf;
+    tespaco = ' ';
+    tquebra = hlf;
     
-    identacao = hidentacao;
+    tidentacao = hidentacao;
     
-    adicao = '+';
-    subtracao = '-';
-    barra = '/';
-    estrela = '*';
+    tadicao = '+';
+    tsubtracao = '-';
+    tbarra = '/';
+    testrela = '*';
     
-    menor = '<';
-    menor_igual = '<=';
-    maior = '>';
-    maior_igual = '>=';
+    tmenor = '<';
+    tmenor_igual = '<=';
+    tmaior = '>';
+    tmaior_igual = '>=';
     
-    seta = '<-';
-    igual_igual = '==';
-    diferente = '!=';
-    igual = '=';    
+    tseta = '<-';
+    tigual_igual = '==';
+    tdiferente = '!=';
+    tigual = '=';    
  
-    delimitador = ponto_e_virgula;
-    virgula = ',';
-    abre_paren = '(' ;
-    fecha_paren = ')' ;
-    abre_colchete = '[' ;
-    fecha_colchete = ']' ;
-    abre_chave = '{' ;
-    fecha_chave = '}' ;
-    abre_coment = '/*' ;
-    fecha_coment = '*/' ;
-    ponto = '.';
-    doispontos = ':';
+    tdelimitador = hponto_e_virgula;
+    tvirgula = ',';
+    tabre_paren = '(' ;
+    tfecha_paren = ')' ;
+    tabre_colchete = '[' ;
+    tfecha_colchete = ']' ;
+    tabre_chave = '{' ;
+    tfecha_chave = '}' ;
+    tabre_coment = '/*' ;
+    tfecha_coment = '*/' ;
+    tponto = '.';
+    tdoispontos = ':';
     
-   and_logico = '&&';
-   or_logico = '||';
-   not_logico = '!';
-   declaracao_atribuicao = ':=';
-   ellipsis = '...';
+   tand_logico = '&&';
+   tor_logico = '||';
+   tnot_logico = '!';
+   tdeclaracao_atribuicao = ':=';
+   tellipsis = '...';
     
-   default = 'default';
-   case = 'case';
-   if = 'if';
-   else = 'else';
-   func = 'func';
-   defer = 'defer';
-   return = 'return';
-   range = 'range';
-   for = 'for';
-   var = 'var';
-   const = 'const';
+   tdefault = 'default';
+   tcase = 'case';
+   tif = 'if';
+   telse = 'else';
+   tfunc = 'func';
+   tdefer = 'defer';
+   treturn = 'return';
+   trange = 'range';
+   tfor = 'for';
+   tvar = 'var';
+   tconst = 'const';
     
-    bool = 'bool';
-   	int32 = 'int32';
-   	int64 = 'int64';
-    tipo = ('bool' | 'int32' | 'int64');
+   tbool = 'bool';
+   tint32 = 'int32';
+   tint64 = 'int64';
+   ttipo = ('bool' | 'int32' | 'int64');
     
-    identificador = (underscore|char) (char|digito)*;
-    char_ignored = hchar_ignored | lf;
+   tidentifier = (hunderscore|hchar) (hchar|hdigito)*;
+   tchar_ignored = hchar_ignored | hlf;
+    
     
 Ignored Tokens
-	char_ignored,
-    comment_line;
+	tchar_ignored,
+  tcomment_line;
 
-Productions
+Productions 
 
-expr =
-  {factor} factor |
-  {adicao} expr adicao factor |
-  {subtracao} expr subtracao factor;
-factor =
-  {term} term |
-  {estrela} factor estrela term |
-  {barra} factor barra term;
-term =
-  {numero} numero |
-  {expr} abre_paren expr fecha_paren;
+  pidentifier_list =  { pmais_identificadores } tidentifier;
+  pmais_identificadores = tidentifier tvirgula;
+
+  /*
+  ConstDecl = const ( ConstSpec | abre_paren { ConstSpec ponto_e_virgula } fecha_paren ) ;
+  ConstSpec = IdentifierList [ [ Type ] igual ExpressionList ] ;
+
+  VarDecl = var ( VarSpec | abre_paren { VarSpec ponto_e_virgula } fecha_paren ) ;
+  VarSpec = IdentifierList ( Type [ igual ExpressionList ] | igual ExpressionList ) ;
+
+  Declaration = ConstDecl | VarDecl ;
+
+  FunctionDecl = func FunctionName ( Function | Signature ) ;
+  FunctionName = identifier ;
+  Function = Signature FunctionBody ;
+  FunctionBody = Block ;
+
+  Program = { TopLevelDecl delimitador } ;
+  TopLevelDecl = Declaration | FunctionDecl | MethodDecl ;
+
   
-/*
-Program = { TopLevelDecl ponto_e_virgula } .
-TopLevelDecl = Declaration | FunctionDecl | MethodDecl .
 
-Declaration = ConstDecl | VarDecl .
+  ExpressionList = Expression { virgula Expression } ;
+  Expression = UnaryExpr | Expression binary_op Expression ;
+  UnaryExpr = PrimaryExpr | unary_op UnaryExpr ;
+  binary_op = or_logico | and_logico | rel_op | add_op | mul_op ;
+  rel_op = igual_igual | menor | maior ;
+  add_op = adicao | subtracao ;
+  mul_  op = estrela | barra ;
+  unary_op = adicao | subtracao | not_logico ;
 
-ConstDecl = const ( ConstSpec | abre_paren { ConstSpec ponto_e_virgula } fecha_paren ) .
-ConstSpec = IdentifierList [ [ Type ] igual ExpressionList ] .
+  PrimaryExpr = Operand | Conversion | PrimaryExpr Index | PrimaryExpr Arguments ;
+  Operand = Literal | identifier | abre_paren Expression fecha_paren ;
 
-VarDecl = var ( VarSpec | abre_paren { VarSpec ponto_e_virgula } fecha_paren ) .
-VarSpec = IdentifierList ( Type [ igual ExpressionList ] | igual ExpressionList ) .
+  Literal = BasicLit | CompositeLit | FunctionLit ;
+  BasicLit = int_lit ;
 
-IdentifierList = identifier { virgula identifier } .
+  CompositeLit = LiteralType LiteralValue ;
+  LiteralType = ArrayType | abre_colchete ellipsis fecha_colchete ElementType ;
+  LiteralValue = abre_chave [ ElementList [ virgula ] ] fecha_chave ;
+  ElementList = KeyedElement { virgula KeyedElement } ;
+  KeyedElement = [ Key doispontos ] Element ;
+  Key = FieldName | Expression | LiteralValue ;
 
-ExpressionList = Expression { virgula Expression } .
-Expression = UnaryExpr | Expression binary_op Expression .
-UnaryExpr = PrimaryExpr | unary_op UnaryExpr .
-binary_op = or_logico | and_logico | rel_op | add_op | mul_op .
-rel_op = igual_igual | menor | maior .
-add_op = adicao | subtracao .
-mul_op = estrela | barra .
-unary_op = adicao | subtracao | not_logico .
+  FieldName = identifier ;
+  Element = Expression | LiteralValue ;
 
-PrimaryExpr = Operand | Conversion | PrimaryExpr Index | PrimaryExpr Arguments .
-Operand = Literal | identifier | abre_paren Expression fecha_paren .
+  FunctionLit = func Function ;
 
-Literal = BasicLit | CompositeLit | FunctionLit .
-BasicLit = int_lit .
+  Conversion = Type abre_paren Expression [ virgula ] fecha_paren ;
+  Index = abre_colchete Expression fecha_colchete ;
+  Arguments = abre_paren [ ( ExpressionList | Type [ virgula ExpressionList ] ) [ ellipsis ] [ virgula ] ] fecha_paren ;
 
-CompositeLit = LiteralType LiteralValue .
-LiteralType = ArrayType | abre_colchete ellipsis fecha_colchete ElementType .
-LiteralValue = abre_chave [ ElementList [ virgula ] ] fecha_chave .
-ElementList = KeyedElement { virgula KeyedElement } .
-KeyedElement = [ Key doispontos ] Element .
-Key = FieldName | Expression | LiteralValue .
+  
 
-FieldName = identifier .
-Element = Expression | LiteralValue .
+  Block = abre_chave StatementList fecha_chave ;
+  StatementList = { Statement ponto_e_virgula } ;
 
-FunctionLit = func Function .
+  MethodDecl = func Receiver MethodName ( Function | Signature ) ;
+  Receiver = Parameters ;
+  MethodName = identifier ;
+  Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren ;
+  ParameterList = ParameterDecl { virgula ParameterDecl } ;
+  ParameterDecl = [ IdentifierList ] Type ;
 
-Conversion = Type abre_paren Expression [ virgula ] fecha_paren .
-Index = abre_colchete Expression fecha_colchete .
-Arguments = abre_paren [ ( ExpressionList | Type [ virgula ExpressionList ] ) [ ellipsis ] [ virgula ] ] fecha_paren .
+  Statement = Declaration | SimpleStmt | ReturnStmt | Block | IfStmt | ForStmt ;
 
-FunctionDecl = func FunctionName ( Function | Signature ) .
-FunctionName = identifier .
-Function = Signature FunctionBody .
-FunctionBody = Block .
+  SimpleStmt = EmptyStmt | ExpressionStmt | Assignment | ShortVarDecl ;
+  EmptyStmt = ;
+  ExpressionStmt = Expression ;
+  Assignment = ExpressionList igual ExpressionList ;
+  ShortVarDecl = IdentifierList declaracao_atribuicao ExpressionList ;
 
-Block = abre_chave StatementList fecha_chave .
-StatementList = { Statement ponto_e_virgula } .
+  ReturnStmt = return [ ExpressionList ] ;
 
-MethodDecl = func Receiver MethodName ( Function | Signature ) .
-Receiver = Parameters .
-MethodName = identifier .
-Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren .
-ParameterList = ParameterDecl { virgula ParameterDecl } .
-ParameterDecl = [ IdentifierList ] Type .
+  IfStmt = if [ SimpleStmt ponto_e_virgula ] Expression Block [ else ( IfStmt | Block ) ] ;
 
-Statement = Declaration | SimpleStmt | ReturnStmt | Block | IfStmt | ForStmt .
+  ForStmt = for [ Condition | ForClause | RangeClause ] Block ;
+  Condition = Expression ;
+  ForClause = [ InitStmt ] ponto_e_virgula [ Condition ] ponto_e_virgula [ PostStmt ] ;
+  RangeClause = [ ExpressionList igual | IdentifierList declaracao_atribuicao ] range Expression ;
 
-SimpleStmt = EmptyStmt | ExpressionStmt | Assignment | ShortVarDecl .
-EmptyStmt = .
-ExpressionStmt = Expression .
-Assignment = ExpressionList igual ExpressionList .
-ShortVarDecl = IdentifierList declaracao_atribuicao ExpressionList .
+  InitStmt = SimpleStmt ;
+  PostStmt = SimpleStmt ;
 
-ReturnStmt = return [ ExpressionList ] .
+  Type = TypeName | TypeLit | abre_paren Type fecha_paren ;
+  TypeName = identifier ;
+  TypeLit = ArrayType | FunctionType ;
 
-IfStmt = if [ SimpleStmt ponto_e_virgula ] Expression Block [ else ( IfStmt | Block ) ] .
+  ArrayType = abre_colchete ArrayLength fecha_colchete ElementType ;
+  ArrayLength = Expression ;
+  ElementType = Type ;
+  FunctionType = func Signature ;
 
-ForStmt = for [ Condition | ForClause | RangeClause ] Block .
-Condition = Expression .
-ForClause = [ InitStmt ] ponto_e_virgula [ Condition ] ponto_e_virgula [ PostStmt ] .
-RangeClause = [ ExpressionList igual | IdentifierList declaracao_atribuicao ] range Expression .
+  Signature = Parameters [ Result ] ;
+  Result = Parameters | Type ;
+  Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren ;
+  ParameterList = ParameterDecl { virgula ParameterDecl } ;
+  ParameterDecl = [ IdentifierList ] [ ellipsis ] Type ;  
 
-InitStmt = SimpleStmt .
-PostStmt = SimpleStmt .
-
-Type = TypeName | TypeLit | abre_paren Type fecha_paren .
-TypeName = identifier .
-TypeLit = ArrayType | FunctionType .
-
-ArrayType = abre_colchete ArrayLength fecha_colchete ElementType .
-ArrayLength = Expression .
-ElementType = Type .
-FunctionType = func Signature .
-
-Signature = Parameters [ Result ] .
-Result = Parameters | Type .
-Parameters = abre_paren [ ParameterList [ virgula ] ] fecha_paren .
-ParameterList = ParameterDecl { virgula ParameterDecl } .
-ParameterDecl = [ IdentifierList ] [ ellipsis ] Type .  
 */
