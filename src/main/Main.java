@@ -5,18 +5,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PushbackReader;
-import compilador.ASTDisplay;
-import compilador.ASTPrinter;
-import compilador.node.Start;
-import compilador.parser.Parser;
+
 import compilador.lexer.Lexer;
 import compilador.lexer.LexerException;
+import compilador.node.Start;
 import compilador.node.Token;
+import compilador.parser.Parser;
+import compilador.parser.ParserException;
 
 
 class Main {
 	
-	public static void main(String args[]) {
+	public static void main(String args[]) throws FileNotFoundException {
 		String arquivo = "";
 		if (args.length == 0)
 			arquivo = System.getProperty("user.dir") + "/teste/progTest3";
@@ -59,11 +59,11 @@ class Main {
 		
 			if(id.equals("TIdentacao"))
 				System.out.print(t.getText());
-			else if(id.equals("TEspaco"))
+			else if(id.equals("TTEspaco"))
 				System.out.print(" ");
-			else if(id.equals("TQuebra"))
+			else if(id.equals("TTQuebra"))
 				System.out.println();
-			else if(id.equals("TCharIgnored"))
+			else if(id.equals("TTCharIgnored"))
 				System.out.print("");
 			else
 				System.out.print(id + "("+t.getText()+")");
@@ -80,10 +80,17 @@ class Main {
 						new Lexer(
 								new PushbackReader(  
 										new FileReader(arquivo), 1024))); 
+		Start tree;
+		try {
+			
+			tree = p.parse();
+			tree.apply(new ASTDisplay());
+			tree.apply(new ASTPrinter());
+			
+		} catch (ParserException | LexerException | IOException e) {
+			e.printStackTrace();
+		}
 		
-		Start tree = p.parse();
-		tree.apply(new ASTDisplay());
-		tree.apply(new ASTPrinter());
 		
 		
 		System.out.println("");

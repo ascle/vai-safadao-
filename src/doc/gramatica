@@ -101,6 +101,17 @@ Ignored Tokens
 
 Productions 
 
+  expr =  {factor} factor |
+      {adicao} expr tadicao factor |
+      {subtracao} expr tsubtracao factor;
+  factor =
+      {term} term |
+      {estrela} factor testrela term |
+      {barra} factor tbarra term;
+  term =
+      {tnumero} tnumero |
+      {expr} tabre_paren expr tfecha_paren;
+
   pidentifier_list =  { pmais_identificadores } tidentifier;
   pmais_identificadores = tidentifier tvirgula;
 

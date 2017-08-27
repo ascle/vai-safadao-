@@ -46,16 +46,16 @@ public class TreeDumper extends DepthFirstAdapter {
         for (int i = 0; i < depth; i++) out.write("   ");
     }
 
-    public static void main(String[] args) {
-        String expr = args.length == 0 ? "(1+2)*3" : args[0];
-        Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(expr))));
-
-        try {
-            Start start = parser.parse();
-            start.getPExpr().apply(new TreeDumper(new PrintWriter(System.out)));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
+//    public static void main(String[] args) {
+//        String expr = args.length == 0 ? "(1+2)*3" : args[0];
+//        Parser parser = new Parser(new Lexer(new PushbackReader(new StringReader(expr))));
+//
+//        try {
+//            Start start = parser.parse();
+//            start.getPExpr().apply(new TreeDumper(new PrintWriter(System.out)));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.exit(1);
+//        }
+//    }
 }
