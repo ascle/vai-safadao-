@@ -19,7 +19,7 @@ class Main {
 	public static void main(String args[]) throws FileNotFoundException {
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/teste/progTest3";
+			arquivo = System.getProperty("user.dir") + "/teste/teste_producoes";
 		else
 			arquivo = args[0];
 		
@@ -66,12 +66,7 @@ class Main {
 			else if(id.equals("TTCharIgnored"))
 				System.out.print("");
 			else
-				System.out.print(id + "("+t.getText()+")");
-			
-			// dá um 'enter'
-			//if (id.equals("TQuebra"))
-				//System.out.println();
-			
+				System.out.print(id + "("+t.getText()+")");			
 		}
 		
 		System.out.println("\n\nAnalise Sintatica:");
@@ -79,15 +74,18 @@ class Main {
 				new Parser(
 						new Lexer(
 								new PushbackReader(  
-										new FileReader(arquivo), 1024))); 
-		Start tree;
+										new FileReader(arquivo), 1024))); 		
+
 		try {
-			
+			Start tree;
 			tree = p.parse();
 			tree.apply(new ASTDisplay());
 			tree.apply(new ASTPrinter());
-			
-		} catch (ParserException | LexerException | IOException e) {
+		} catch (ParserException e) {			
+			System.err.println(e.getMessage());
+		} catch (LexerException e) {			
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
