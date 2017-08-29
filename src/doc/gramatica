@@ -102,54 +102,75 @@ Ignored Tokens
 
 Productions 
 
-
-  pprogram = { pprogram_loop } ;
+  
+  pprogram = { pprogram_loop }  ;
   pprogram_loop =  ptop_level_decl tdelimitador;
-  ptop_level_decl = pdeclaration | pfunction_decl | pmethod_decl  ;
+  ptop_level_decl = {pdeclaration}  pdeclaration | {pfunction_decl}  pfunction_decl | {pmethod_decl}  pmethod_decl  ;
 
-  pdeclaration = pconst_decl | pvar_decl ;
+  pdeclaration = {pconst_decl}  pconst_decl | {pvar_decl}  pvar_decl ;
 
   pfunction_decl = tfunc pfunction_name pfunction_decl_agrup ;
-  pfunction_decl_agrup = pfunction | psignature;
+  pfunction_decl_agrup = {pfunction}  pfunction | {psignature}  psignature;
   pfunction_name = tidentifier ;
   pfunction = psignature pfunction_body ;
   pfunction_body = pblock ;
 
   pmethod_decl  = tfunc preceiver  pmethod_name pmethod_decl_agrup;  
-  pmethod_decl_agrup = pfunction | psignature;
+  pmethod_decl_agrup = {pfunction}  pfunction | {psignature}  psignature;
   preceiver  = pparameters ;
   pmethod_name = tidentifier ;
   pparameters = tabre_paren pparameters_op? tfecha_paren ;
   pparameters_op = pparameter_list tvirgula?;
-  pparameter_list =  pparameter_list_loop | pparameter_decl  ;
+  pparameter_list =  {pparameter_list_loop}  pparameter_list_loop | {pparameter_decl}  pparameter_decl  ;
   pparameter_list_loop = pparameter_list tvirgula pparameter_decl;
   pparameter_decl = pidentifier_list? ptype ;
 
-  pidentifier_list =  {pidentifier_list} tvirgula | tidentifier ;
+  pidentifier_list =  {pidentifier_list}  tvirgula | tidentifier ;
 
   pconst_decl = tconst pconst_decl2 ;
-  pconst_decl2 = pconst_spec_ident | tabre_paren pconst_decl3;
-  pconst_decl3 =  { pconst_decl_conteudo } tfecha_paren;
+  pconst_decl2 = {pconst_spec_ident} pconst_spec_ident | tabre_paren pconst_decl3;
+  pconst_decl3 =  { pconst_decl_conteudo }  tfecha_paren;
   pconst_decl_conteudo = pconst_spec_ident tdelimitador;
 
   pconst_spec_ident = pidentifier_list pconst_spec;
-  pconst_spec =  {pconst_spec2} pconst_spec2;
-  pconst_spec2 = { ptype } ptype tigual pexpression_list;
+  pconst_spec =  {pconst_spec2}  pconst_spec2;
+  pconst_spec2 = { ptype }  ptype tigual pexpression_list;
 
-  pexpression_list = {pexpression_list_loop} | pexpression ;
+  pexpression_list = {pexpression_list_loop}  | pexpression ;
   pexpression_list_loop = tvirgula pexpression;
 
-  pexpression = punary_expr | pexpression pbinary_op pexpression ;
-  punary_expr = pprimary_expr | punary_op punary_expr ;
-  pbinary_op = tor_logico | tand_logico | prel_op | padd_op | pmul_op ;
-  prel_op = tigual_igual | tmenor | tmaior ;
-  padd_op = tadicao | tsubtracao ;
-  pmul_op = testrela | tbarra ;
-  punary_op = tadicao | tsubtracao | tnot_logico ;
+// Expression
+  pexpression = {punary_expr} punary_expr | pbinary_expr;
+  pbinary_expr = {pbinary_logico_exp} pbinary_logico_exp | {pbinary_rel_exp}  pbinary_rel_exp 
+              | {pbinary_arit_exp} pbinary_arit_exp;
 
-  ptype = ptype_name | ptype_list | tabre_paren ptype tfecha_paren ;
+// Operações unárias  
+  punary_expr = {pprimary_expr}  pprimary_expr | punary_op punary_expr ;
+  punary_op = {tadicao} tadicao | {tsubtracao} tsubtracao | {tnot_logico} tnot_logico ;
+
+// Operações binárias
+  pbinary_logico_exp = pbinary_logico_exp tor_logico pbinary_logico_factor;
+  pbinary_logico_factor = pbinary_logico_factor tand_logico pbinary_logico_termo;
+  pbinary_logico_termo = tabre_paren pbinary_logico_exp tfecha_paren
+                    | {tidentifier} tidentifier;
+
+  pbinary_rel_exp = pbinary_rel_exp prel_op pbinary_rel_termo;
+  pbinary_rel_termo = tabre_paren pbinary_rel_exp tfecha_paren
+                    | {tidentifier} tidentifier;
+  prel_op = {tigual_igual} tigual_igual | {tmenor} tmenor | {tmaior} tmaior ;
+
+  pbinary_arit_exp = pbinary_arit_exp padd_op pbinary_arit_factor;
+  pbinary_arit_factor = pbinary_arit_factor pmul_op pbinary_arit_termo;
+  pbinary_arit_termo = tabre_paren pbinary_arit_exp tfecha_paren
+                    | {tsubtracao} tidentifier;
+  padd_op = {tadicao} tadicao | {tsubtracao} tsubtracao ;
+  pmul_op = {testrela} testrela | {tbarra} tbarra ;
+
+  
+
+  ptype = {ptype_name} ptype_name | {ptype_list} ptype_list | tabre_paren ptype tfecha_paren ;
   ptype_name = tidentifier ;
-  ptype_list = parray_type | pfunctionptype ;
+  ptype_list = {tipo_array} parray_type | {tipo_funcao} pfunctionptype ;
 
   parray_type = tabre_colchete parray_length tfecha_colchete pelement_type ;
   parray_length = pexpression ;
@@ -157,48 +178,49 @@ Productions
   pfunctionptype = tfunc psignature ;
 
   psignature = pparameters presult? ;
-  presult = pparameters | ptype ;
-  pparameters = tabre_paren pparameters_opcional? tfecha_paren ;
+  presult = {parametros} pparameters | {tipo} ptype ;
   pparameters_opcional = pparameter_list tvirgula? ;
-  
-  pparameter_list = pparameter_list_loop | pparameter_decl ;
-  pparameter_list_loop = pparameter_list tvirgula pparameter_decl;
-  pparameter_decl =  pidentifier_list? ptype ;  
+   
 
-  pvar_decl = tvar pvar_decl_agrup;
-  pvar_decl_agrup = pvar_spec | tabre_paren pvar_decl_agrup_paren;
-  pvar_decl_agrup_paren = { pvar_decl_agrup_loop } tfecha_paren;
+  pvar_decl = {decla_variavel} tvar pvar_decl_agrup;
+  pvar_decl_agrup = {decla_grupo} pvar_spec | tabre_paren pvar_decl_agrup_paren;
+  pvar_decl_agrup_paren = { pvar_decl_agrup_loop }  tfecha_paren;
   pvar_decl_agrup_loop = pvar_spec tponto_e_virgula;
   pvar_spec = pidentifier_list pvar_spec_agrup ; 
-  pvar_spec_agrup = ptype pvar_spec_agrup_opc? | tigual pexpression_list;
+  pvar_spec_agrup = {variavel_espc} ptype pvar_spec_agrup_opc? | tigual pexpression_list;
   pvar_spec_agrup_opc = tigual pexpression_list;
 
 
 
-  
 
 
+  pprimary_expr = {expressao_prima} poperand   
+                | {conversao} pconversion 
+                | {indice} pprimary_expr pindex 
+                | {argumentos} pprimary_expr parguments ;
+  poperand = {literal} pliteral 
+            | {tidentifier} tidentifier 
+            | {tabre_paren} tabre_paren pexpression tfecha_paren ;
 
-
-  pprimary_expr = poperand | pconversion | pprimary_expr pindex | pprimary_expr parguments ;
-  poperand = pliteral | tidentifier | tabre_paren pexpression tfecha_paren ;
-
-  pliteral = pbasic_lit | pcomposite_lit | pfunction_list ;
+  pliteral = {base_literal} pbasic_lit 
+            | {composite_literal} pcomposite_lit 
+            | {funcao_list} pfunction_list ;
    //não entedi a linha abaixo int_lit 
   pbasic_lit = tnumero;
 
   pcomposite_lit = pliteral_type pliteral_value ;
-  pliteral_type = parray_type | tabre_colchete tellipsis tfecha_colchete pelement_type ;
+  pliteral_type = parray_type | {tabre_colchete} tabre_colchete tellipsis tfecha_colchete pelement_type ;
   pliteral_value = tabre_chave pliteral_value_opc? tfecha_chave ;
   pliteral_value_opc = pelement_lit tvirgula?;
-  pelement_lit = pelement_lit_loop | pkeyed_element;
+  pelement_lit = {elemento_loop}  pelement_lit_loop 
+              | pkeyed_element;
   pelement_lit_loop = pelement_lit tvirgula pkeyed_element;
   pkeyed_element = pkeyed_element_opc? pelement ;
   pkeyed_element_opc = pkey tdoispontos;
-  pkey = pfield_name| pexpression | pliteral_value ;
+  pkey = {nme_campo} pfield_name| {expressao} pexpression | {valor_literal} pliteral_value ;
 
   pfield_name= tidentifier ;
-  pelement = pexpression | pliteral_value ;
+  pelement = {expressao} pexpression | pliteral_value ;
 
   pfunction_list = tfunc pfunction ;
 
@@ -206,20 +228,28 @@ Productions
   pindex = tabre_colchete pexpression tfecha_colchete ;
   parguments = tabre_paren parguments_corpo? tfecha_paren ;
   parguments_corpo = parguments_corpo_agrup tellipsis? tvirgula?;
-  parguments_corpo_agrup = pexpression_list | ptype tvirgula pexpression_list?;
+  parguments_corpo_agrup = {lista_expressao} pexpression_list | {tipo} ptype tvirgula pexpression_list?;
 
   pblock = tabre_chave pstatement_list tfecha_chave ;
-  pstatement_list = { pstatement_list_loop } ;
+  pstatement_list = { pstatement_list_loop }  ;
   pstatement_list_loop = pstatement tponto_e_virgula;
 
-  pstatement = pdeclaration | psimple_stmt | preturn_stmt | pblock | pif_stmt  | pfor_stmt ;
+  pstatement = {declaracao} pdeclaration 
+              | {stml_simples} psimple_stmt 
+              | {retorno} preturn_stmt 
+              | {bloco} pblock 
+              | {if} pif_stmt  
+              | {for} pfor_stmt ;
 
-  psimple_stmt = pempty_stmt | pexpression_stmt | passignment | pshortpvar_decl ;
+  psimple_stmt = {vazio} pempty_stmt 
+              | {expressao} pexpression_stmt 
+              | {assigment} passignment 
+              | {short} pshortpvar_decl ;
   pempty_stmt = ;
 
-  psimple_stmt = pexpression_stmt | passignment | pshortpvar_decl ;
   pexpression_stmt = pexpression ;
-  passignment = pexpression_list tigual pexpression_list ;
+  passignment = {lista_expressao}pexpression_list tigual  passignment_fator;
+  passignment_fator = pexpression_list;
   pshortpvar_decl = pidentifier_list tdeclaracao_atribuicao pexpression_list ;
 
   preturn_stmt = treturn pexpression_list? ;
@@ -227,14 +257,15 @@ Productions
   pif_stmt  = tif pif_stmt_opc? pexpression pblock pelse? ;
   pif_stmt_opc = psimple_stmt tponto_e_virgula;
   pelse = telse pelse_agrup;
-  pelse_agrup = pif_stmt  | pblock ;
+  pelse_agrup = {if}pif_stmt  | {bloco}pblock ;
 
   pfor_stmt = tfor pfor_stmt_opc? pblock ;
-  pfor_stmt_opc = pcondition | pfor_clause | prange_clause;
+  pfor_stmt_opc = {condicao}pcondition | {clusura_for}pfor_clause | {itervalo}prange_clause;
   pcondition = pexpression ;
-  pfor_clause = pinit_stmt? tponto_e_virgula pcondition? tponto_e_virgula ppost_stmt? ;
+  pfor_clause = pinit_stmt? tponto_e_virgula pcondition? pfor_clause_fator;
+  pfor_clause_fator = tponto_e_virgula ppost_stmt? ;
   prange_clause = prange_clause_opc? trange pexpression ;
-  prange_clause_opc = pexpression_list tigual | pidentifier_list tdeclaracao_atribuicao;
+  prange_clause_opc = {lista_expressao} pexpression_list tigual | {identificador_lista} pidentifier_list tdeclaracao_atribuicao;
 
   pinit_stmt = psimple_stmt ;
   ppost_stmt = psimple_stmt ; 
