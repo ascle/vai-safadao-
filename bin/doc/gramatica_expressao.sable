@@ -102,32 +102,28 @@ Productions
 
 // ************************ Inicio Expressão ************************
 	
-	// Expressão - reduce/reduce entre os tipos de expressão, se comenta uma funciona
-  //	pexpression = {expressao} punary_expr;
-  //              | pbinary_expr;
+	// expressão - reduce/reduce entre os tipos de expressão, se comenta uma funciona
+  	pexpression = {expressao} punary_expr 
+                | pbinary_expr;
   	  	
-  // Expressão binaria - reduce/reduce entre os tipos de espressão, se comentar uma funciona  
+  // expressão binaria - reduce/reduce entre os tipos de espressão, se comentar uma funciona  
   	pbinary_expr =  {alogico} pbinary_logico_exp
           			 | {arelacional}  pbinary_rel_exp
-                 | {dfsd} tidentifier;
-  //  		    		 | {aaritmetica} pbinary_arit_exp;
+    		    		 | {aaritmetica} pbinary_arit_exp;
 
 	// Expressão unária OK(+5)
-  /*
-    punary_expr = {pprimary_expr}  pprimary_expr | 
+  punary_expr = {pprimary_expr}  pprimary_expr | 
                 punary_op punary_expr ;
     punary_op = {tadicao} tadicao | 
               {tsubtracao} tsubtracao | 
               {tnot_logico} tnot_logico ;
-    pprimary_expr = {expr_operando} poperand   ;
+    pprimary_expr = {expressao_prima} poperand   ;
     poperand = {literal} pliteral 
             | {tidentifier} tidentifier 
-            // susbstituir pexpression por punary_expr
-            | {tabre_paren} tabre_paren punary_expr tfecha_paren ;
+            | {tabre_paren} tabre_paren pexpression tfecha_paren ;
     pliteral = {base_literal} pbasic_lit ;
     pbasic_lit = tnumero; 
-      */       
-           
+             
 
 	// Operações binárias
 	
@@ -136,29 +132,31 @@ Productions
                         | {ds} pbinary_logico_factor;
   	pbinary_logico_factor = pbinary_logico_factor tand_logico pbinary_logico_factor_not
                             | {ds} pbinary_logico_factor_not;
-  	pbinary_logico_factor_not = tnot_logico pbinary_expr
-  					                   | {operando} pbinary_expr;
+  	pbinary_logico_factor_not = tnot_logico pbinary_logico_termo
+  					                   | {df} pbinary_logico_termo;
+  	pbinary_logico_termo = tabre_paren pbinary_logico_exp tfecha_paren
+                    | {identificador} tidentifier;
 
 
 	// Operações relacionais OK
-  	pbinary_rel_exp = pbinary_rel_exp prel_op pbinary_expr 
-                    | {operando} pbinary_expr;
+  	pbinary_rel_exp = pbinary_rel_exp prel_op pbinary_rel_termo 
+                    | {termorelacional} pbinary_rel_termo;
+  	pbinary_rel_termo = tabre_paren pbinary_rel_exp tfecha_paren
+                    | {identificador} tidentifier;
   	prel_op = {tigual_igual} tigual_igual 
             | {tmenor} tmenor 
             | {tmaior} tmaior ;
 
 	// Operações aritmeticas OK
- /* 
   	pbinary_arit_exp = pbinary_arit_exp padd_op pbinary_arit_factor
                     | {fatoraritmetico} pbinary_arit_factor;
-  	pbinary_arit_factor = pbinary_arit_factor pmul_op poperandx'x'
-                        | {operando} pbinary_expr;
-  	//pbinary_arit_termo = tabre_paren pbinary_arit_exp tfecha_paren 
-    //                    | {identificador} tidentifier;
+  	pbinary_arit_factor = pbinary_arit_factor pmul_op pbinary_arit_termo
+                        | {termoaritmetico} pbinary_arit_termo;
+  	pbinary_arit_termo = tabre_paren pbinary_arit_exp tfecha_paren 
+                        | {identificador} tidentifier;
   	padd_op = {tadicao} tadicao 
             | {tsubtracao} tsubtracao ;
   	pmul_op = {testrela} testrela 
             | {tbarra} tbarra ;
-*/            
 
 // ************************ Fim Expressão ************************

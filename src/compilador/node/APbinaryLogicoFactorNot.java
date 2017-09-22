@@ -5,26 +5,22 @@ package compilador.node;
 import compilador.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APbinaryRelExp extends PPbinaryRelExp
+public final class APbinaryLogicoFactorNot extends PPbinaryLogicoFactorNot
 {
-    private PPbinaryRelExp _pbinaryRelExp_;
-    private PPrelOp _prelOp_;
+    private TTnotLogico _tnotLogico_;
     private PPbinaryExpr _pbinaryExpr_;
 
-    public APbinaryRelExp()
+    public APbinaryLogicoFactorNot()
     {
         // Constructor
     }
 
-    public APbinaryRelExp(
-        @SuppressWarnings("hiding") PPbinaryRelExp _pbinaryRelExp_,
-        @SuppressWarnings("hiding") PPrelOp _prelOp_,
+    public APbinaryLogicoFactorNot(
+        @SuppressWarnings("hiding") TTnotLogico _tnotLogico_,
         @SuppressWarnings("hiding") PPbinaryExpr _pbinaryExpr_)
     {
         // Constructor
-        setPbinaryRelExp(_pbinaryRelExp_);
-
-        setPrelOp(_prelOp_);
+        setTnotLogico(_tnotLogico_);
 
         setPbinaryExpr(_pbinaryExpr_);
 
@@ -33,28 +29,27 @@ public final class APbinaryRelExp extends PPbinaryRelExp
     @Override
     public Object clone()
     {
-        return new APbinaryRelExp(
-            cloneNode(this._pbinaryRelExp_),
-            cloneNode(this._prelOp_),
+        return new APbinaryLogicoFactorNot(
+            cloneNode(this._tnotLogico_),
             cloneNode(this._pbinaryExpr_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPbinaryRelExp(this);
+        ((Analysis) sw).caseAPbinaryLogicoFactorNot(this);
     }
 
-    public PPbinaryRelExp getPbinaryRelExp()
+    public TTnotLogico getTnotLogico()
     {
-        return this._pbinaryRelExp_;
+        return this._tnotLogico_;
     }
 
-    public void setPbinaryRelExp(PPbinaryRelExp node)
+    public void setTnotLogico(TTnotLogico node)
     {
-        if(this._pbinaryRelExp_ != null)
+        if(this._tnotLogico_ != null)
         {
-            this._pbinaryRelExp_.parent(null);
+            this._tnotLogico_.parent(null);
         }
 
         if(node != null)
@@ -67,32 +62,7 @@ public final class APbinaryRelExp extends PPbinaryRelExp
             node.parent(this);
         }
 
-        this._pbinaryRelExp_ = node;
-    }
-
-    public PPrelOp getPrelOp()
-    {
-        return this._prelOp_;
-    }
-
-    public void setPrelOp(PPrelOp node)
-    {
-        if(this._prelOp_ != null)
-        {
-            this._prelOp_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._prelOp_ = node;
+        this._tnotLogico_ = node;
     }
 
     public PPbinaryExpr getPbinaryExpr()
@@ -124,8 +94,7 @@ public final class APbinaryRelExp extends PPbinaryRelExp
     public String toString()
     {
         return ""
-            + toString(this._pbinaryRelExp_)
-            + toString(this._prelOp_)
+            + toString(this._tnotLogico_)
             + toString(this._pbinaryExpr_);
     }
 
@@ -133,15 +102,9 @@ public final class APbinaryRelExp extends PPbinaryRelExp
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._pbinaryRelExp_ == child)
+        if(this._tnotLogico_ == child)
         {
-            this._pbinaryRelExp_ = null;
-            return;
-        }
-
-        if(this._prelOp_ == child)
-        {
-            this._prelOp_ = null;
+            this._tnotLogico_ = null;
             return;
         }
 
@@ -158,15 +121,9 @@ public final class APbinaryRelExp extends PPbinaryRelExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._pbinaryRelExp_ == oldChild)
+        if(this._tnotLogico_ == oldChild)
         {
-            setPbinaryRelExp((PPbinaryRelExp) newChild);
-            return;
-        }
-
-        if(this._prelOp_ == oldChild)
-        {
-            setPrelOp((PPrelOp) newChild);
+            setTnotLogico((TTnotLogico) newChild);
             return;
         }
 

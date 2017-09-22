@@ -7,14 +7,14 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class TTespaco extends Token
 {
-    public TTespaco()
+    public TTespaco(String text)
     {
-        super.setText(" ");
+        setText(text);
     }
 
-    public TTespaco(int line, int pos)
+    public TTespaco(String text, int line, int pos)
     {
-        super.setText(" ");
+        setText(text);
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,12 @@ public final class TTespaco extends Token
     @Override
     public Object clone()
     {
-      return new TTespaco(getLine(), getPos());
+      return new TTespaco(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseTTespaco(this);
-    }
-
-    @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
-        throw new RuntimeException("Cannot change TTespaco text.");
     }
 }

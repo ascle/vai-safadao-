@@ -19,7 +19,7 @@ class Main {
 	public static void main(String args[]) throws FileNotFoundException {
 		String arquivo = "";
 		if (args.length == 0)
-			arquivo = System.getProperty("user.dir") + "/teste/teste_producoes";
+			arquivo = System.getProperty("user.dir") + "/teste/progTest1";
 		else
 			arquivo = args[0];
 		
@@ -56,44 +56,45 @@ class Main {
 			Integer lenId = t.getClass().toString().split(" ")[1].split("\\.").length-1;
 			String id = t.getClass().toString().split(" ")[1].split("\\.")[lenId];
 
-		
-			if(id.equals("TIdentacao"))
-				System.out.print(t.getText());
-			else if(id.equals("TTEspaco"))
-				System.out.print(" ");
-			else if(id.equals("TTQuebra"))
-				System.out.println();
-			else if(id.equals("TTCharIgnored"))
-				System.out.print("");
-			else
+//		
+//			if(id.equals("TTidentacao"))
+//				System.out.print(t.getText());
+//			else if(id.equals("TTespaco"))
+//				System.out.print(" ");
+//			else if(id.equals("TTquebra"))
+//				System.out.println();
+//			else if(id.equals("TTcharIgnored"))
+//				System.out.print("");
+//			else
 				System.out.print(id + "("+t.getText()+")");			
 		}
+		System.out.println("");
+		if (!erros.trim().isEmpty())
+			System.out.println(erros);	
+		
 		
 		System.out.println("\n\nAnalise Sintatica:");
-		Parser p =
-				new Parser(
-						new Lexer(
-								new PushbackReader(  
-										new FileReader(arquivo), 1024))); 		
-
+		try {						
+			br = new BufferedReader(new FileReader(arquivo));
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			return;
+		}
+		
+		l = new Lexer(new PushbackReader(br));
+		
+		Parser p = new Parser(l);
 		try {
-			Start tree;
-			tree = p.parse();
-			tree.apply(new ASTDisplay());
+			Start tree = p.parse();
 			tree.apply(new ASTPrinter());
 		} catch (ParserException e) {			
+			e.printStackTrace();
 			System.err.println(e.getMessage());
 		} catch (LexerException e) {			
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
-		
-		
-		System.out.println("");
-		if (!erros.trim().isEmpty())
-			System.out.println(erros);
+		}		
 		
 	 }
 }

@@ -9,7 +9,7 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
 {
     private PPbinaryLogicoExp _pbinaryLogicoExp_;
     private TTorLogico _torLogico_;
-    private PPbinaryLogicoFactor _pbinaryLogicoFactor_;
+    private TTidentifier _tidentifier_;
 
     public APbinaryLogicoExp()
     {
@@ -19,14 +19,14 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
     public APbinaryLogicoExp(
         @SuppressWarnings("hiding") PPbinaryLogicoExp _pbinaryLogicoExp_,
         @SuppressWarnings("hiding") TTorLogico _torLogico_,
-        @SuppressWarnings("hiding") PPbinaryLogicoFactor _pbinaryLogicoFactor_)
+        @SuppressWarnings("hiding") TTidentifier _tidentifier_)
     {
         // Constructor
         setPbinaryLogicoExp(_pbinaryLogicoExp_);
 
         setTorLogico(_torLogico_);
 
-        setPbinaryLogicoFactor(_pbinaryLogicoFactor_);
+        setTidentifier(_tidentifier_);
 
     }
 
@@ -36,7 +36,7 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
         return new APbinaryLogicoExp(
             cloneNode(this._pbinaryLogicoExp_),
             cloneNode(this._torLogico_),
-            cloneNode(this._pbinaryLogicoFactor_));
+            cloneNode(this._tidentifier_));
     }
 
     @Override
@@ -95,16 +95,16 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
         this._torLogico_ = node;
     }
 
-    public PPbinaryLogicoFactor getPbinaryLogicoFactor()
+    public TTidentifier getTidentifier()
     {
-        return this._pbinaryLogicoFactor_;
+        return this._tidentifier_;
     }
 
-    public void setPbinaryLogicoFactor(PPbinaryLogicoFactor node)
+    public void setTidentifier(TTidentifier node)
     {
-        if(this._pbinaryLogicoFactor_ != null)
+        if(this._tidentifier_ != null)
         {
-            this._pbinaryLogicoFactor_.parent(null);
+            this._tidentifier_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +117,7 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
             node.parent(this);
         }
 
-        this._pbinaryLogicoFactor_ = node;
+        this._tidentifier_ = node;
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
         return ""
             + toString(this._pbinaryLogicoExp_)
             + toString(this._torLogico_)
-            + toString(this._pbinaryLogicoFactor_);
+            + toString(this._tidentifier_);
     }
 
     @Override
@@ -145,9 +145,9 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
             return;
         }
 
-        if(this._pbinaryLogicoFactor_ == child)
+        if(this._tidentifier_ == child)
         {
-            this._pbinaryLogicoFactor_ = null;
+            this._tidentifier_ = null;
             return;
         }
 
@@ -170,9 +170,9 @@ public final class APbinaryLogicoExp extends PPbinaryLogicoExp
             return;
         }
 
-        if(this._pbinaryLogicoFactor_ == oldChild)
+        if(this._tidentifier_ == oldChild)
         {
-            setPbinaryLogicoFactor((PPbinaryLogicoFactor) newChild);
+            setTidentifier((TTidentifier) newChild);
             return;
         }
 

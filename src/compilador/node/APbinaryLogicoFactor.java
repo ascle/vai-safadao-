@@ -9,7 +9,7 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
 {
     private PPbinaryLogicoFactor _pbinaryLogicoFactor_;
     private TTandLogico _tandLogico_;
-    private PPbinaryLogicoTermo _pbinaryLogicoTermo_;
+    private PPbinaryLogicoFactorNot _pbinaryLogicoFactorNot_;
 
     public APbinaryLogicoFactor()
     {
@@ -19,14 +19,14 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
     public APbinaryLogicoFactor(
         @SuppressWarnings("hiding") PPbinaryLogicoFactor _pbinaryLogicoFactor_,
         @SuppressWarnings("hiding") TTandLogico _tandLogico_,
-        @SuppressWarnings("hiding") PPbinaryLogicoTermo _pbinaryLogicoTermo_)
+        @SuppressWarnings("hiding") PPbinaryLogicoFactorNot _pbinaryLogicoFactorNot_)
     {
         // Constructor
         setPbinaryLogicoFactor(_pbinaryLogicoFactor_);
 
         setTandLogico(_tandLogico_);
 
-        setPbinaryLogicoTermo(_pbinaryLogicoTermo_);
+        setPbinaryLogicoFactorNot(_pbinaryLogicoFactorNot_);
 
     }
 
@@ -36,7 +36,7 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
         return new APbinaryLogicoFactor(
             cloneNode(this._pbinaryLogicoFactor_),
             cloneNode(this._tandLogico_),
-            cloneNode(this._pbinaryLogicoTermo_));
+            cloneNode(this._pbinaryLogicoFactorNot_));
     }
 
     @Override
@@ -95,16 +95,16 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
         this._tandLogico_ = node;
     }
 
-    public PPbinaryLogicoTermo getPbinaryLogicoTermo()
+    public PPbinaryLogicoFactorNot getPbinaryLogicoFactorNot()
     {
-        return this._pbinaryLogicoTermo_;
+        return this._pbinaryLogicoFactorNot_;
     }
 
-    public void setPbinaryLogicoTermo(PPbinaryLogicoTermo node)
+    public void setPbinaryLogicoFactorNot(PPbinaryLogicoFactorNot node)
     {
-        if(this._pbinaryLogicoTermo_ != null)
+        if(this._pbinaryLogicoFactorNot_ != null)
         {
-            this._pbinaryLogicoTermo_.parent(null);
+            this._pbinaryLogicoFactorNot_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +117,7 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
             node.parent(this);
         }
 
-        this._pbinaryLogicoTermo_ = node;
+        this._pbinaryLogicoFactorNot_ = node;
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
         return ""
             + toString(this._pbinaryLogicoFactor_)
             + toString(this._tandLogico_)
-            + toString(this._pbinaryLogicoTermo_);
+            + toString(this._pbinaryLogicoFactorNot_);
     }
 
     @Override
@@ -145,9 +145,9 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
             return;
         }
 
-        if(this._pbinaryLogicoTermo_ == child)
+        if(this._pbinaryLogicoFactorNot_ == child)
         {
-            this._pbinaryLogicoTermo_ = null;
+            this._pbinaryLogicoFactorNot_ = null;
             return;
         }
 
@@ -170,9 +170,9 @@ public final class APbinaryLogicoFactor extends PPbinaryLogicoFactor
             return;
         }
 
-        if(this._pbinaryLogicoTermo_ == oldChild)
+        if(this._pbinaryLogicoFactorNot_ == oldChild)
         {
-            setPbinaryLogicoTermo((PPbinaryLogicoTermo) newChild);
+            setPbinaryLogicoFactorNot((PPbinaryLogicoFactorNot) newChild);
             return;
         }
 

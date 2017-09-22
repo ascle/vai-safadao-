@@ -7,7 +7,7 @@ import compilador.analysis.*;
 @SuppressWarnings("nls")
 public final class Start extends Node
 {
-    private PPprogram _pPprogram_;
+    private PPbinaryExpr _pPbinaryExpr_;
     private EOF _eof_;
 
     public Start()
@@ -16,10 +16,10 @@ public final class Start extends Node
     }
 
     public Start(
-        @SuppressWarnings("hiding") PPprogram _pPprogram_,
+        @SuppressWarnings("hiding") PPbinaryExpr _pPbinaryExpr_,
         @SuppressWarnings("hiding") EOF _eof_)
     {
-        setPPprogram(_pPprogram_);
+        setPPbinaryExpr(_pPbinaryExpr_);
         setEOF(_eof_);
     }
 
@@ -27,7 +27,7 @@ public final class Start extends Node
     public Object clone()
     {
         return new Start(
-            cloneNode(this._pPprogram_),
+            cloneNode(this._pPbinaryExpr_),
             cloneNode(this._eof_));
     }
 
@@ -37,16 +37,16 @@ public final class Start extends Node
         ((Analysis) sw).caseStart(this);
     }
 
-    public PPprogram getPPprogram()
+    public PPbinaryExpr getPPbinaryExpr()
     {
-        return this._pPprogram_;
+        return this._pPbinaryExpr_;
     }
 
-    public void setPPprogram(PPprogram node)
+    public void setPPbinaryExpr(PPbinaryExpr node)
     {
-        if(this._pPprogram_ != null)
+        if(this._pPbinaryExpr_ != null)
         {
-            this._pPprogram_.parent(null);
+            this._pPbinaryExpr_.parent(null);
         }
 
         if(node != null)
@@ -59,7 +59,7 @@ public final class Start extends Node
             node.parent(this);
         }
 
-        this._pPprogram_ = node;
+        this._pPbinaryExpr_ = node;
     }
 
     public EOF getEOF()
@@ -90,9 +90,9 @@ public final class Start extends Node
     @Override
     void removeChild(Node child)
     {
-        if(this._pPprogram_ == child)
+        if(this._pPbinaryExpr_ == child)
         {
-            this._pPprogram_ = null;
+            this._pPbinaryExpr_ = null;
             return;
         }
 
@@ -108,9 +108,9 @@ public final class Start extends Node
     @Override
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(this._pPprogram_ == oldChild)
+        if(this._pPbinaryExpr_ == oldChild)
         {
-            setPPprogram((PPprogram) newChild);
+            setPPbinaryExpr((PPbinaryExpr) newChild);
             return;
         }
 
@@ -127,7 +127,7 @@ public final class Start extends Node
     public String toString()
     {
         return "" +
-            toString(this._pPprogram_) +
+            toString(this._pPbinaryExpr_) +
             toString(this._eof_);
     }
 }
